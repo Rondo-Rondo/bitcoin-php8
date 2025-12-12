@@ -1,18 +1,13 @@
 {
-  "name": "ijry/bitcoin-php8",
+  "name": "rondo-rondo/bitcoin-php8",
   "description": "PHP8 Bitcoin library with functions for transactions, signatures, serialization, Random/Deterministic ECDSA keys, blocks, RPC bindings",
   "type": "library",
-  "homepage": "https://github.com/ijry/bitcoin-php8",
+  "homepage": "https://github.com/Rondo-Rondo/bitcoin-php8",
   "license": "Unlicense",
   "authors": [
     {
-      "name": "jry",
-      "homepage": "https://jiangruyi.com",
-      "role": "Author"
-    },
-    {
-      "name": "Thomas Kerin",
-      "homepage": "https://thomaskerin.io",
+      "name": "Rondo-Rondo",
+      "homepage": "",
       "role": "Author"
     }
   ],
