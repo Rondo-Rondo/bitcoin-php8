@@ -26,16 +26,18 @@ class InputCollectionMutator extends AbstractCollectionMutator
     /**
      * @return InputMutator
      */
-    public function current(): InputMutator
+    #[\ReturnTypeWillChange]
+    public function current()
     {
-        return $this->set->current();
+        return $this->set[$this->position];
     }
 
     /**
      * @param int $offset
      * @return InputMutator
      */
-    public function offsetGet($offset): InputMutator
+    #[\ReturnTypeWillChange]
+    public function offsetGet($offset)
     {
         if (!$this->set->offsetExists($offset)) {
             throw new \OutOfRangeException('Input does not exist');
@@ -70,6 +72,7 @@ class InputCollectionMutator extends AbstractCollectionMutator
         }
 
         $this->set = \SplFixedArray::fromArray(array_slice($this->set->toArray(), $start, $length), false);
+        $this->position = 0;
         return $this;
     }
 

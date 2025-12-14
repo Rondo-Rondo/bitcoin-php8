@@ -4,12 +4,22 @@ declare(strict_types=1);
 
 namespace BitWasp\Bitcoin\Transaction\Mutator;
 
+/**
+ * PHP 8.4 compatibility fix:
+ * SplFixedArray no longer implements Iterator, it now implements IteratorAggregate.
+ * We must track position ourselves instead of delegating to SplFixedArray.
+ */
 abstract class AbstractCollectionMutator implements \Iterator, \ArrayAccess, \Countable
 {
     /**
      * @var \SplFixedArray
      */
-    protected $set;
+    protected \SplFixedArray $set;
+
+    /**
+     * @var int
+     */
+    protected int $position = 0;
 
     /**
      * @return array
@@ -36,58 +46,60 @@ abstract class AbstractCollectionMutator implements \Iterator, \ArrayAccess, \Co
     }
 
     /**
-     *
+     * @return void
      */
-    public function rewind()
+    public function rewind(): void
     {
-        $this->set->rewind();
+        $this->position = 0;
     }
 
     /**
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
-        return $this->set->current();
+        return $this->set[$this->position];
     }
 
     /**
      * @return int
      */
-    public function key()
+    public function key(): int
     {
-        return $this->set->key();
+        return $this->position;
     }
 
     /**
-     *
+     * @return void
      */
-    public function next()
+    public function next(): void
     {
-        $this->set->next();
+        ++$this->position;
     }
 
     /**
      * @return bool
      */
-    public function valid()
+    public function valid(): bool
     {
-        return $this->set->valid();
+        return $this->set->offsetExists($this->position);
     }
 
     /**
      * @param int $offset
      * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return $this->set->offsetExists($offset);
     }
 
     /**
      * @param int $offset
+     * @return void
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         if (!$this->offsetExists($offset)) {
             throw new \InvalidArgumentException('Offset does not exist');
@@ -100,6 +112,7 @@ abstract class AbstractCollectionMutator implements \Iterator, \ArrayAccess, \Co
      * @param int $offset
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         if (!$this->set->offsetExists($offset)) {
@@ -111,8 +124,9 @@ abstract class AbstractCollectionMutator implements \Iterator, \ArrayAccess, \Co
     /**
      * @param int $offset
      * @param mixed $value
+     * @return void
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->set->offsetSet($offset, $value);
     }

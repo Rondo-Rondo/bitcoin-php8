@@ -24,16 +24,18 @@ class OutputCollectionMutator extends AbstractCollectionMutator
     /**
      * @return OutputMutator
      */
-    public function current(): OutputMutator
+    #[\ReturnTypeWillChange]
+    public function current()
     {
-        return $this->set->current();
+        return $this->set[$this->position];
     }
 
     /**
      * @param int $offset
      * @return OutputMutator
      */
-    public function offsetGet($offset): OutputMutator
+    #[\ReturnTypeWillChange]
+    public function offsetGet($offset)
     {
         if (!$this->set->offsetExists($offset)) {
             throw new \OutOfRangeException('Nothing found at this offset');
@@ -68,6 +70,7 @@ class OutputCollectionMutator extends AbstractCollectionMutator
         }
 
         $this->set = \SplFixedArray::fromArray(array_slice($this->set->toArray(), $start, $length), false);
+        $this->position = 0;
         return $this;
     }
 
