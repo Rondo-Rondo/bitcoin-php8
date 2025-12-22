@@ -26,7 +26,7 @@ All contributions are welcome. Please see [[this page](https://github.com/Bit-Wa
 
  - Blocks, headers, and merkle blocks and bloom filters
  - P2SH & Segregated witness scripts
- - An adaptable elliptic-curve library, using [[PhpEcc](https://github.com/mdanter/phpecc)] by default, or libsecp256k1 if the bindings are found
+ - An adaptable elliptic-curve library, using [[PhpEcc](https://github.com/paragonie/ecc)] (paragonie/ecc fork) by default, or libsecp256k1 if the bindings are found
  - Support for building, parsing, signing/validating transactions
  - Deterministic signatures (RFC6979)
  - BIP32 and electrum (older type I) deterministic key algorithms
